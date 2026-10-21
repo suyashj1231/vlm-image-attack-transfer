@@ -1,0 +1,13 @@
+10-20 12:31 sweep_3h start
+10-20 12:31 inspect_models done: => vision encoders DIFFER across sizes: pixel/feature transfer across scale is expected to be hard; this supports finding 5.
+10-20 12:39 attack wb4b done: white-box held-out success: 3/4
+10-20 12:43 grid wb4b done
+10-20 13:13 attack ens2b4b done: white-box held-out success: 0/4
+10-20 13:17 grid ens2b4b done
+10-20 13:26 attack mitidi done: white-box held-out success: 4/4
+10-20 13:30 grid mitidi done
+10-20 13:30 attack embed FAILED
+10-20 13:30 grid embed FAILED
+10-20 13:30 building leaderboard
+10-20 13:30 leaderboard FAILED (some grids may be missing)
+10-20 13:30 sweep_3h done

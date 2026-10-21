@@ -1,0 +1,83 @@
+=== OVERNIGHT CHAIN START Tue Oct 20 23:59:03 PDT 2026 ===
+log: results/overnight_20261020_2359.log
+
+########## P1 mitidi deployment ladder  [23:59:03] ##########
++ /Users/suyashjain/venvs/vlm/bin/python -m eval.run_grid --image images/mitidi.png --victim-set default --out results/grid5_mitidi_deploy.csv
+
+=== victim: mlx-community/Qwen3-VL-2B-Instruct-8bit ===
+Fetching 14 files:   0%|          | 0/14 [00:00<?, ?it/s]Fetching 14 files: 100%|██████████| 14/14 [00:00<00:00, 5390.15it/s]
+Fetching 14 files:   0%|          | 0/14 [00:00<?, ?it/s]Fetching 14 files: 100%|██████████| 14/14 [00:00<00:00, 6507.84it/s]
+Traceback (most recent call last):
+  File "<frozen runpy>", line 201, in _run_module_as_main
+  File "<frozen runpy>", line 87, in _run_code
+  File "/Users/suyashjain/Documents/Claude-code/Class/CS205/Attack/Tool/eval/run_grid.py", line 159, in <module>
+    main()
+    ~~~~^^
+  File "/Users/suyashjain/Documents/Claude-code/Class/CS205/Attack/Tool/eval/run_grid.py", line 121, in main
+    note = f"ctrl={int(strict)} content={int(flag)} lenient={ladder['lenient']}"
+                                                             ~~~~~~^^^^^^^^^^^
+KeyError: 'lenient'
+>>> P1 mitidi deployment ladder FAILED (exit 1) -- chain continues
+
+########## P2 mitidi quant axis  [23:59:08] ##########
++ /Users/suyashjain/venvs/vlm/bin/python -m eval.run_grid --image images/mitidi.png --victim-set sweep --pipelines none --out results/grid5_mitidi_quant.csv
+
+=== victim: mlx-community/Qwen3-VL-2B-Instruct-3bit ===
+Fetching 14 files:   0%|          | 0/14 [00:00<?, ?it/s]Fetching 14 files: 100%|██████████| 14/14 [00:00<00:00, 4734.36it/s]
+Fetching 14 files:   0%|          | 0/14 [00:00<?, ?it/s]Fetching 14 files: 100%|██████████| 14/14 [00:00<00:00, 4451.20it/s]
+Traceback (most recent call last):
+  File "<frozen runpy>", line 201, in _run_module_as_main
+  File "<frozen runpy>", line 87, in _run_code
+  File "/Users/suyashjain/Documents/Claude-code/Class/CS205/Attack/Tool/eval/run_grid.py", line 159, in <module>
+    main()
+    ~~~~^^
+  File "/Users/suyashjain/Documents/Claude-code/Class/CS205/Attack/Tool/eval/run_grid.py", line 121, in main
+    note = f"ctrl={int(strict)} content={int(flag)} lenient={ladder['lenient']}"
+                                                             ~~~~~~^^^^^^^^^^^
+KeyError: 'lenient'
+>>> P2 mitidi quant axis FAILED (exit 1) -- chain continues
+
+########## P3a ultrabreak deployment ladder  [23:59:11] ##########
++ /Users/suyashjain/venvs/vlm/bin/python -m eval.run_grid --image images/ultrabreak_s1300_tv01.png --victim-set default --out results/grid5_ub_deploy.csv
+
+=== victim: mlx-community/Qwen3-VL-2B-Instruct-8bit ===
+Fetching 14 files:   0%|          | 0/14 [00:00<?, ?it/s]Fetching 14 files: 100%|██████████| 14/14 [00:00<00:00, 4337.12it/s]
+Fetching 14 files:   0%|          | 0/14 [00:00<?, ?it/s]Fetching 14 files: 100%|██████████| 14/14 [00:00<00:00, 4620.73it/s]
+Traceback (most recent call last):
+  File "<frozen runpy>", line 201, in _run_module_as_main
+  File "<frozen runpy>", line 87, in _run_code
+  File "/Users/suyashjain/Documents/Claude-code/Class/CS205/Attack/Tool/eval/run_grid.py", line 159, in <module>
+    main()
+    ~~~~^^
+  File "/Users/suyashjain/Documents/Claude-code/Class/CS205/Attack/Tool/eval/run_grid.py", line 121, in main
+    note = f"ctrl={int(strict)} content={int(flag)} lenient={ladder['lenient']}"
+                                                             ~~~~~~^^^^^^^^^^^
+KeyError: 'lenient'
+>>> P3a ultrabreak deployment ladder FAILED (exit 1) -- chain continues
+
+########## P3b ultrabreak quant axis  [23:59:13] ##########
++ /Users/suyashjain/venvs/vlm/bin/python -m eval.run_grid --image images/ultrabreak_s1300_tv01.png --victim-set sweep --pipelines none --out results/grid5_ub_quant.csv
+
+=== victim: mlx-community/Qwen3-VL-2B-Instruct-3bit ===
+Fetching 14 files:   0%|          | 0/14 [00:00<?, ?it/s]Fetching 14 files: 100%|██████████| 14/14 [00:00<00:00, 3730.40it/s]
+Fetching 14 files:   0%|          | 0/14 [00:00<?, ?it/s]Fetching 14 files: 100%|██████████| 14/14 [00:00<00:00, 5216.33it/s]
+Traceback (most recent call last):
+  File "<frozen runpy>", line 201, in _run_module_as_main
+  File "<frozen runpy>", line 87, in _run_code
+  File "/Users/suyashjain/Documents/Claude-code/Class/CS205/Attack/Tool/eval/run_grid.py", line 159, in <module>
+    main()
+    ~~~~^^
+  File "/Users/suyashjain/Documents/Claude-code/Class/CS205/Attack/Tool/eval/run_grid.py", line 121, in main
+    note = f"ctrl={int(strict)} content={int(flag)} lenient={ladder['lenient']}"
+                                                             ~~~~~~^^^^^^^^^^^
+KeyError: 'lenient'
+>>> P3b ultrabreak quant axis FAILED (exit 1) -- chain continues
+
+########## P4 gen mitidi seed=0  [23:59:15] ##########
++ /Users/suyashjain/venvs/vlm-torch/bin/python -m attack.run --momentum 1.0 --ti 5 --di 0.5 --steps 400 --seed 0 --out images/rigor_mitidi_s0.png
+W1020 23:59:18.480000 50497 torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/625 [00:00<?, ?it/s]Loading weights:   0%|          | 1/625 [00:01<19:54,  1.91s/it]Loading weights:  29%|██▊       | 179/625 [00:02<00:03, 123.78it/s]Loading weights:  45%|████▍     | 280/625 [00:03<00:03, 110.38it/s]Loading weights:  54%|█████▍    | 340/625 [00:03<00:02, 118.65it/s]Loading weights:  61%|██████    | 382/625 [00:03<00:01, 139.34it/s]Loading weights:  68%|██████▊   | 423/625 [00:03<00:01, 161.42it/s]Loading weights:  74%|███████▍  | 462/625 [00:03<00:00, 180.99it/s]Loading weights:  80%|███████▉  | 498/625 [00:03<00:00, 204.26it/s]Loading weights:  85%|████████▌ | 534/625 [00:04<00:00, 222.29it/s]Loading weights:  91%|█████████ | 568/625 [00:04<00:00, 242.49it/s]Loading weights:  96%|█████████▋| 602/625 [00:04<00:00, 201.52it/s]Loading weights: 100%|██████████| 625/625 [00:04<00:00, 137.08it/s]
+[Qwen/Qwen3-VL-2B-Instruct] verifying patchify ... 5.9138983488082886e-08
+step    0  loss=5.7755  avg20=5.7755  lr=0.00392  [id]  mem=8.3G
+/opt/homebrew/Cellar/python@3.12/3.12.15/Frameworks/Python.framework/Versions/3.12/lib/python3.12/multiprocessing/resource_tracker.py:279: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '

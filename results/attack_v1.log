@@ -1,0 +1,12 @@
+W1019 22:36:15.510000 98705 torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/625 [00:00<?, ?it/s]Loading weights:   0%|          | 1/625 [00:01<11:15,  1.08s/it]Loading weights:  29%|██▉       | 181/625 [00:01<00:02, 210.10it/s]Loading weights:  46%|████▌     | 285/625 [00:01<00:01, 213.43it/s]Loading weights:  56%|█████▋    | 352/625 [00:01<00:01, 247.42it/s]Loading weights:  73%|███████▎  | 458/625 [00:01<00:00, 354.61it/s]Loading weights:  87%|████████▋ | 544/625 [00:02<00:00, 434.93it/s]Loading weights:  99%|█████████▉| 621/625 [00:02<00:00, 445.85it/s]Loading weights: 100%|██████████| 625/625 [00:02<00:00, 284.58it/s]
+verifying patchify ... 5.9138983488082886e-08
+step    0  prompt='What is in this image?'  loss=5.7755
+step   20  prompt='What do you see?'  loss=4.1583
+step   39  prompt='Caption this image.'  loss=2.7269
+saved -> images/attack_benign_v1.png
+  heldout 'Please summarise the image.' -> miss: '-2024-05-24-34-34-34-34-'
+  heldout 'Give a short description.' -> miss: '-2024-05-24-34-34-34-34-'
+  heldout 'What objects appear in the i' -> miss: ', 364.61, 364.61, 364.61'
+  heldout 'Explain what this picture de' -> miss: '-2024-05-24-34-34-34-34-'
+white-box held-out success: 0/4

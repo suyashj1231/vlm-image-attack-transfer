@@ -1,0 +1,59 @@
+W1019 23:08:30.507000 71975 torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/625 [00:00<?, ?it/s]Loading weights:  99%|█████████▊| 616/625 [00:00<00:00, 6122.46it/s]Loading weights: 100%|██████████| 625/625 [00:00<00:00, 6182.13it/s]
+verifying patchify ... 5.9138983488082886e-08
+step    0  prompt='What is in this image?'  loss=5.7631  avg20=5.7631  [id,r384]  mem=4.7G
+step   20  prompt='What do you see?'  loss=4.1722  avg20=5.5769  [r352,r480+q74]  mem=4.7G
+step   40  prompt='Tell me about this photo'  loss=3.0523  avg20=3.4373  [r512+q40,r512]  mem=5.7G
+step   60  prompt='What is in this image?'  loss=2.4657  avg20=2.5124  [r352+q91,r352+q69]  mem=5.7G
+step   80  prompt='What do you see?'  loss=1.7017  avg20=2.0299  [q52,r416+q43]  mem=5.7G
+step  100  prompt='Tell me about this photo'  loss=2.2888  avg20=1.6170  [q84,r416+q66]  mem=5.7G
+step  120  prompt='What is in this image?'  loss=0/opt/homebrew/Cellar/python@3.12/3.12.15/Frameworks/Python.framework/Versions/3.12/lib/python3.12/multiprocessing/resource_tracker.py:279: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
+163  [r512+q71,q50]  mem=5.7G
+step  200  prompt='What do you see?'  loss=0.1326  avg20=1.1791  [id,q48]  mem=5.7G
+step  220  prompt='Tell me about this photo'  loss=1.2141  avg20=0.8063  [q94,r416]  mem=5.7G
+step  240  prompt='What is in this image?'  loss=0.7679  avg20=0.8640  [q63,r512+q70]  mem=5.7G
+step  260  prompt='What do you see?'  loss=0.8174  avg20=0.9209  [q77,r352+q69]  mem=5.7G
+step  280  prompt='Tell me about this photo'  loss=1.8170  avg20=0.9242  [r512+q47,r512+q54]  mem=5.7G
+step  300  prompt='What is in this image?'  loss=0.0317  avg20=0.4718  [r416,q52]  mem=5.7G
+step  320  prompt='What do you see?'  loss=0.0337  avg20=0.5456  [r480+q90,q46]  mem=5.7G
+step  340  prompt='Tell me about this photo'  loss=2.0291  avg20=0.6130  [r384+q51,r512+q85]  mem=5.8G
+step  360  prompt='What is in this image?'  loss=0.0508  avg20=0.5499  [id,q51]  mem=5.7G
+step  380  prompt='What do you see?'  loss=0.2330  avg20=0.6094  [r416+q86,q93]  mem=5.7G
+step  400  prompt='Tell me about this photo'  loss=1.7354  avg20=0.6239  [r512,r416+q83]  mem=5.7G
+step  420  prompt='What is in this image?'  loss=0.5095  avg20=0.6749  [id,r384+q51]  mem=5.7G
+step  440  prompt='What do you see?'  loss=0.0035  avg20=0.6271  [id,q70]  mem=5.7G
+step  460  prompt='Tell me about this photo'  loss=2.2750  avg20=0.6220  [r384+q79,r384+q42]  mem=5.7G
+step  480  prompt='What is in this image?'  loss=0.0120  avg20=0.4202  [r512+q56,id]  mem=5.7G
+step  500  prompt='What do you see?'  loss=0.0057  avg20=0.6807  [q65,q80]  mem=5.7G
+step  520  prompt='Tell me about this photo'  loss=1.0305  avg20=0.7009  [q59,r512+q78]  mem=5.7G
+step  540  prompt='What is in this image?'  loss=0.0350  avg20=0.3316  [r416+q83,r416]  mem=5.7G
+step  560  prompt='What do you see?'  loss=0.0057  avg20=0.6434  [q71,q91]  mem=5.7G
+step  580  prompt='Tell me about this photo'  loss=1.8481  avg20=0.7756  [r416+q43,r480+q76]  mem=5.7G
+step  600  prompt='What is in this image?'  loss=0.1503  avg20=0.5060  [r352,q46]  mem=5.7G
+step  620  prompt='What do you see?'  loss=0.0679  avg20=0.5042  [q76,r352+q85]  mem=5.7G
+step  640  prompt='Tell me about this photo'  loss=1.4096  avg20=0.6049  [r384+q59,q86]  mem=5.8G
+step  660  prompt='What is in this image?'  loss=0.7636  avg20=0.3490  [r416+q44,r352+q47]  mem=5.7G
+step  680  prompt='What do you see?'  loss=0.1071  avg20=0.3650  [r320+q83,q89]  mem=5.8G
+step  700  prompt='Tell me about this photo'  loss=1.5806  avg20=0.3868  [r384+q64,q58]  mem=5.7G
+step  720  prompt='What is in this image?'  loss=0.0962  avg20=0.4607  [r480+q48,q47]  mem=5.8G
+step  740  prompt='What do you see?'  loss=0.4494  avg20=0.4617  [id,r384+q67]  mem=5.7G
+step  760  prompt='Tell me about this photo'  loss=1.3638  avg20=0.3575  [r384+q55,r512+q69]  mem=5.8G
+step  780  prompt='What is in this image?'  loss=0.0099  avg20=0.2805  [q93,r480+q61]  mem=5.7G
+step  800  prompt='What do you see?'  loss=0.0061  avg20=0.3655  [q93,q89]  mem=5.7G
+step  820  prompt='Tell me about this photo'  loss=0.9731  avg20=0.4407  [q61,q88]  mem=5.7G
+step  840  prompt='What is in this image?'  loss=0.0043  avg20=0.2546  [q67,q42]  mem=5.7G
+step  860  prompt='What do you see?'  loss=0.0191  avg20=0.6235  [q69,id]  mem=5.7G
+step  880  prompt='Tell me about this photo'  loss=1.2514  avg20=0.4905  [q50,q51]  mem=5.7G
+step  900  prompt='What is in this image?'  loss=0.4358  avg20=0.3822  [r416+q66,r416+q88]  mem=5.7G
+step  920  prompt='What do you see?'  loss=0.0079  avg20=0.3688  [id,q91]  mem=5.7G
+step  940  prompt='Tell me about this photo'  loss=1.7045  avg20=0.3334  [r352+q94,r320+q53]  mem=5.7G
+step  960  prompt='What is in this image?'  loss=0.0167  avg20=0.4293  [id,q90]  mem=5.7G
+step  980  prompt='What do you see?'  loss=0.1410  avg20=0.3939  [r320,q41]  mem=5.7G
+step  999  prompt='Caption this image.'  loss=0.0436  avg20=0.2032  [q46,r352+q95]  mem=5.7G
+saved -> images/attack_eot.png
+  heldout 'Please summarise the image.' -> miss: 'IAOSIS!!'
+  heldout 'Give a short description.' -> miss: 'IAOSIS!'
+  heldout 'What objects appear in the i' -> miss: 'IAOSIS!!'
+  heldout 'Explain what this picture de' -> miss: 'IAOSI!'
+white-box held-out success: 0/4

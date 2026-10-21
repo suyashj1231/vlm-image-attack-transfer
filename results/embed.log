@@ -1,0 +1,21 @@
+W1020 13:30:28.492000 83255 torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/625 [00:00<?, ?it/s]Loading weights: 100%|██████████| 625/625 [00:00<00:00, 9273.13it/s]
+[Qwen/Qwen3-VL-2B-Instruct] verifying patchify ... 5.9138983488082886e-08
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/suyashjain/Documents/Claude-code/Class/CS205/Attack/Tool/attack/run.py", line 149, in <module>
+    main()
+  File "/Users/suyashjain/Documents/Claude-code/Class/CS205/Attack/Tool/attack/run.py", line 116, in main
+    img = run_pgd(members, base, tgt.prompts_train, tgt.target_text, cfg)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/suyashjain/Documents/Claude-code/Class/CS205/Attack/Tool/attack/optimizer.py", line 530, in run_pgd
+    loss = member.loss_embed(img_t, target_text) / denom
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/suyashjain/Documents/Claude-code/Class/CS205/Attack/Tool/attack/optimizer.py", line 446, in loss_embed
+    feats = self._image_features(img01)              # [n_img, hidden]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/suyashjain/Documents/Claude-code/Class/CS205/Attack/Tool/attack/optimizer.py", line 425, in _image_features
+    return feats.reshape(-1, feats.shape[-1]).float()
+           ^^^^^^^^^^^^^
+AttributeError: 'BaseModelOutputWithDeepstackFeatures' object has no attribute 'reshape'

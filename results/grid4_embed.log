@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 201, in _run_module_as_main
+  File "<frozen runpy>", line 87, in _run_code
+  File "/Users/suyashjain/Documents/Claude-code/Class/CS205/Attack/Tool/eval/run_grid.py", line 138, in <module>
+    main()
+    ~~~~^^
+  File "/Users/suyashjain/Documents/Claude-code/Class/CS205/Attack/Tool/eval/run_grid.py", line 84, in main
+    base = Image.open(args.image).convert("RGB")
+           ~~~~~~~~~~^^^^^^^^^^^^
+  File "/Users/suyashjain/venvs/vlm/lib/python3.15/site-packages/PIL/Image.py", line 3654, in open
+    fp = builtins.open(filename, "rb")
+FileNotFoundError: [Errno 2] No such file or directory: 'images/embed.png'

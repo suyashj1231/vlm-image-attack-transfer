@@ -1,0 +1,94 @@
+W1020 15:32:30.903000 35503 torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Could not reach the Hub ([Errno 8] nodename nor servname provided, or not known). Using cached commit hash for 'Qwen/Qwen3-VL-2B-Instruct'.
+'[Errno 8] nodename nor servname provided, or not known' thrown while requesting GET https://huggingface.co/api/models/Qwen/Qwen3-VL-2B-Instruct/tree/main/additional_chat_templates
+Retrying in 1s [Retry 1/5].
+'[Errno 8] nodename nor servname provided, or not known' thrown while requesting GET https://huggingface.co/api/models/Qwen/Qwen3-VL-2B-Instruct/tree/main/additional_chat_templates
+Retrying in 2s [Retry 2/5].
+'[Errno 8] nodename nor servname provided, or not known' thrown while requesting GET https://huggingface.co/api/models/Qwen/Qwen3-VL-2B-Instruct/tree/main/additional_chat_templates
+Retrying in 4s [Retry 3/5].
+'[Errno 8] nodename nor servname provided, or not known' thrown while requesting GET https://huggingface.co/api/models/Qwen/Qwen3-VL-2B-Instruct/tree/main/additional_chat_templates
+Retrying in 8s [Retry 4/5].
+'[Errno 8] nodename nor servname provided, or not known' thrown while requesting GET https://huggingface.co/api/models/Qwen/Qwen3-VL-2B-Instruct/tree/main/additional_chat_templates
+Retrying in 8s [Retry 5/5].
+'[Errno 8] nodename nor servname provided, or not known' thrown while requesting GET https://huggingface.co/api/models/Qwen/Qwen3-VL-2B-Instruct/tree/main/additional_chat_templates
+'[Errno 8] nodename nor servname provided, or not known' thrown while requesting GET https://huggingface.co/api/models/Qwen/Qwen3-VL-2B-Instruct/tree/main/additional_chat_templates
+Retrying in 1s [Retry 1/5].
+'[Errno 8] nodename nor servname provided, or not known' thrown while requesting GET https://huggingface.co/api/models/Qwen/Qwen3-VL-2B-Instruct/tree/main/additional_chat_templates
+Retrying in 2s [Retry 2/5].
+'[Errno 8] nodename nor servname provided, or not known' thrown while requesting GET https://huggingface.co/api/models/Qwen/Qwen3-VL-2B-Instruct/tree/main/additional_chat_templates
+Retrying in 4s [Retry 3/5].
+'[Errno 8] nodename nor servname provided, or not known' thrown while requesting GET https://huggingface.co/api/models/Qwen/Qwen3-VL-2B-Instruct/tree/main/additional_chat_templates
+Retrying in 8s [Retry 4/5].
+Loading weights:   0%|          | 0/625 [00:00<?, ?it/s]Loading weights: 100%|██████████| 625/625 [00:00<00:00, 8341.23it/s]
+step    0  sem+tv=0.6255  avg20=0.6255  mem=5.8G
+step   20  sem+tv=0.5904  avg20=0.6106  mem=5.8G
+step   40  sem+tv=0.5596  avg20=0.5770  mem=5.8G
+step   60  sem+tv=0.4901  avg20=0.5132  mem=5.8G
+step   80  sem+tv=0.4746  avg20=0.4832  mem=5.8G
+step  100  sem+tv=0.4431  avg20=0.4409  mem=5.8G
+step  120  sem+tv=0.4396  avg20=0.4190  mem=5.8G
+step  140  sem+tv=0.3750  avg20=0.3944  mem=5.8G
+step  160  sem+tv=0.3707  avg20=0.3718  mem=5.8G
+step  180  sem+tv=0.3615  avg20=0.3616  mem=5.8G
+step  200  sem+tv=0.3372  avg20=0.3603  mem=5.8G
+step  220  sem+tv=0.3407  avg20=0.3482  mem=5.8G
+step  240  sem+tv=0.3282  avg20=0.3483  mem=5.8G
+step  260  sem+tv=0.3431  avg20=0.3382  mem=5.8G
+step  280  sem+tv=0.3315  avg20=0.3317  mem=5.8G
+step  300  sem+tv=0.2926  avg20=0.3126  mem=5.8G
+step  320  sem+tv=0.2803  avg20=0.2963  mem=5.8G
+step  340  sem+tv=0.2755  avg20=0.2928  mem=5.8G
+step  360  sem+tv=0.3132  avg20=0.3004  mem=5.8G
+step  380  sem+tv=0.2659  avg20=0.2917  mem=5.8G
+step  400  sem+tv=0.3121  avg20=0.2897  mem=5.8G
+step  420  sem+tv=0.2765  avg20=0.2817  mem=5.8G
+step  440  sem+tv=0.3042  avg20=0.2926  mem=5.8G
+step  460  sem+tv=0.3112  avg20=0.2908  mem=5.8G
+step  480  sem+tv=0.2689  avg20=0.2838  mem=5.8G
+step  500  sem+tv=0.2991  avg20=0.2808  mem=5.8G
+step  520  sem+tv=0.3018  avg20=0.2740  mem=5.8G
+step  540  sem+tv=0.2454  avg20=0.2711  mem=5.8G
+step  560  sem+tv=0.2821  avg20=0.2770  mem=5.8G
+step  580  sem+tv=0.2360  avg20=0.2653  mem=5.8G
+step  600  sem+tv=0.2846  avg20=0.2763  mem=5.8G
+step  620  sem+tv=0.3136  avg20=0.2752  mem=5.8G
+step  640  sem+tv=0.2415  avg20=0.2606  mem=5.8G
+step  660  sem+tv=0.2469  avg20=0.2371  mem=5.8G
+step  680  sem+tv=0.2221  avg20=0.2255  mem=5.8G
+step  700  sem+tv=0.1851  avg20=0.2220  mem=5.8G
+step  720  sem+tv=0.2191  avg20=0.1929  mem=5.8G
+step  740  sem+tv=0.1801  avg20=0.1923  mem=5.8G
+step  760  sem+tv=0.1746  avg20=0.1794  mem=5.8G
+step  780  sem+tv=0.1717  avg20=0.1837  mem=5.8G
+step  800  sem+tv=0.1737  avg20=0.1814  mem=5.8G
+step  820  sem+tv=0.1942  avg20=0.1762  mem=5.8G
+step  840  sem+tv=0.1744  avg20=0.1743  mem=5.8G
+step  860  sem+tv=0.1852  avg20=0.1744  mem=5.8G
+step  880  sem+tv=0.1740  avg20=0.1694  mem=5.8G
+step  900  sem+tv=0.1694  avg20=0.1706  mem=5.8G
+step  920  sem+tv=0.1583  avg20=0.1706  mem=5.8G
+step  940  sem+tv=0.1606  avg20=0.1680  mem=5.8G
+step  960  sem+tv=0.1728  avg20=0.1660  mem=5.8G
+step  980  sem+tv=0.1594  avg20=0.1706  mem=5.8G
+step 1000  sem+tv=0.1712  avg20=0.1685  mem=5.8G
+step 1020  sem+tv=0.1627  avg20=0.1706  mem=5.8G
+step 1040  sem+tv=0.1777  avg20=0.1697  mem=5.8G
+step 1060  sem+tv=0.1783  avg20=0.1680  mem=5.8G
+step 1080  sem+tv=0.1718  avg20=0.1673  mem=5.8G
+step 1100  sem+tv=0.1637  avg20=0.1687  mem=5.8G
+step 1120  sem+tv=0.2064  avg20=0.1664  mem=5.8G
+step 1140  sem+tv=0.1844  avg20=0.1689  mem=5.8G
+step 1160  sem+tv=0.1609  avg20=0.1658  mem=5.8G
+step 1180  sem+tv=0.1861  avg20=0.1690  mem=5.8G
+step 1200  sem+tv=0.1680  avg20=0.1669  mem=5.8G
+step 1220  sem+tv=0.2010  avg20=0.1707  mem=5.8G
+step 1240  sem+tv=0.1608  avg20=0.1647  mem=5.8G
+step 1260  sem+tv=0.1657  avg20=0.1691  mem=5.8G
+step 1280  sem+tv=0.1634  avg20=0.1684  mem=5.8G
+step 1299  sem+tv=0.1660  avg20=0.1688  mem=5.8G
+saved -> images/ultrabreak_s1300_tv01.png
+  heldout 'Please summarise the image' -> control=n content=n: 'This is a vibrant, abstract digital artwork featuring a dense, chaotic'
+  heldout 'Give a short description.' -> control=n content=n: 'This is a vibrant, abstract digital artwork featuring a chaotic and co'
+  heldout 'What objects appear in the' -> control=n content=n: 'Based on the image provided, the following objects and elements appear'
+  heldout 'Explain what this picture ' -> control=n content=n: 'This image is a digital artwork that appears to be a collage of text a'
+white-box held-out: control(starts_with) 0/4  content(substring) 0/4

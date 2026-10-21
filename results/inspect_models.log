@@ -1,0 +1,47 @@
+
+vision-encoder / llm config comparison
+============================================================
+
+Qwen/Qwen3-VL-2B-Instruct
+  depth                  24
+  hidden_size            1024
+  out_hidden_size        2048
+  intermediate_size      4096
+  num_heads              16
+  patch_size             16
+  temporal_patch_size    2
+  spatial_merge_size     2
+  in_channels            3
+  hidden_act             gelu_pytorch_tanh
+  llm_layers             28
+  llm_hidden             2048
+
+Qwen/Qwen3-VL-4B-Instruct
+  depth                  24
+  hidden_size            1024
+  out_hidden_size        2560
+  intermediate_size      4096
+  num_heads              16
+  patch_size             16
+  temporal_patch_size    2
+  spatial_merge_size     2
+  in_channels            3
+  hidden_act             gelu_pytorch_tanh
+  llm_layers             36
+  llm_hidden             2560
+
+Qwen/Qwen3-VL-8B-Instruct
+  depth                  27
+  hidden_size            1152
+  out_hidden_size        4096
+  intermediate_size      4304
+  num_heads              16
+  patch_size             16
+  temporal_patch_size    2
+  spatial_merge_size     2
+  in_channels            3
+  hidden_act             gelu_pytorch_tanh
+  llm_layers             36
+  llm_hidden             4096
+
+=> vision encoders DIFFER across sizes: pixel/feature transfer across scale is expected to be hard; this supports finding 5.

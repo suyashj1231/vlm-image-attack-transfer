@@ -1,0 +1,32 @@
+# ---- Python ----
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+
+# ---- Local editor / agent settings ----
+.claude/settings.local.json
+
+# ---- Copyrighted third-party papers (ETHICS: not ours to redistribute) ----
+# Download locally into Paper/ from the official sources; not tracked here.
+Paper/
+
+# ---- ETHICS rule 2 / "Benchmark prompt files": NEVER commit these ----
+# AdvBench / SafeBench and any harmful-prompt sources are download-local only;
+# targets.py reads only the prompt column at runtime.
+*advbench*
+*safebench*
+*harmful*
+benchmarks/
+prompts_benchmark*
+# Defensive: benchmark-mode runs must never persist model text to disk
+# (run_grid.py only writes *_responses.jsonl in benign mode). If a benchmark
+# response file ever appears, it is excluded here as a backstop:
+results/*_bench_*_responses.jsonl
+
+# ---- Scratch / transient ----
+results/_tmp_*
+*.tmp
+
+# ---- OS cruft ----
+.DS_Store
