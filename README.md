@@ -1,86 +1,84 @@
-# Robustness of VLM Image Attacks Under Real Deployment Conditions
+# VLM image attacks under real deployment conditions
 
-CS 205 research project. **Question:** given an adversarial image optimised once
-against a reference VLM, how much of its effect survives the things real
-deployments actually do — quantisation (3–8 bit), a different runtime (MLX /
-Ollama / llama.cpp), and input preprocessing (resize, JPEG re-encode)?
+Two well-known papers on attacking vision-language models (VLMs) seem to disagree. One shows you can build a single doctored image that hijacks many models. Another runs large experiments and finds those images almost never work on a model they were not built against. Both are from top venues.
 
-- **Attacker side** (`attack/`) — white-box PGD on pixels against a PyTorch
-  reference model (`Qwen/Qwen3-VL-2B-Instruct`) on Apple MPS. Produces one PNG.
-- **Defender/measurement side** (`eval/`) — feed that PNG to quantised MLX
-  victim models, optionally after a deployment preprocessing step, and record
-  whether the attack still lands.
+This project tests who is right, and the short answer is that both are, because they quietly measure two different things. The distinction that settles it is control versus content:
 
-Primary metric is a **benign** forced string (`HIJACKED-BY-TEAM-X`) so nothing
-harmful is ever generated. Benchmark bypass *rates* are reported only in
-aggregate — see `ETHICS.md`.
+- **Control** means the image actually seized the model: it forced the exact target string at the start of the answer. A real hijack.
+- **Content** means the string only appears because it was painted into the image as pixels, and the model read it off the picture. The model was never steered. It just described what it saw.
 
-## Environments (two venvs, by design)
+Score an attack strictly (did it take control?) and transfer is about 0%. Score it loosely (did the string show up as readable pixels?) and it is 40% to 100%. Same images, both results true.
+
+The only thing any attack is ever asked to force is the benign placeholder `HIJACKED-BY-TEAM-X`. Nothing harmful is generated. See `ETHICS.md`.
+
+## What we found
+
+Eleven experiments (E0 through E10), run across 3 model scales (2B, 4B, 8B), 6 quantization levels (3, 4, 5, 6, 8-bit and bf16), and 11 deployment preprocessing pipelines (resize, JPEG, WebP, blur, crop). Held-out prompts throughout.
+
+- **Control does not cross architectures.** The strongest attack we could build (an ensemble of 2B and 4B surrogates with APGD, MI/TI/DI boosters, EOT, and 1000 steps) hit the target on 7 of 8 white-box checks, so the optimizer genuinely works. On the never-seen 8B it still reached 0% control and roughly 0% verbatim content. A doctored image does not silently hijack a model it was not built against.
+- **Within a known architecture, attacks survive deployment.** The same strong image kept 82% control and 84% content on 2B, and 61% / 73% on 4B, through the quantization and preprocessing gap.
+- **Content and control come apart.** On the 4B victim, one attack reproduced the target string (content) up to 70% of the time while taking control 0% of the time. The model was reading, not obeying.
+- **Quantization is not a defense.** Control stays high from 4-bit up to bf16. The only level that suppresses the attack is 3-bit, and it does so by breaking the model's usefulness entirely. The cheap real defense is aggressive downscaling (resize to 256 px), not compression.
+- **A metric caught lying.** An early draft reported 45% content on the 8B using a loose leakage metric (`leak50`). That metric fires on the single word "hijacked," which is 53% of the target and which models use to describe any glitchy screen. The honest number by verbatim matching is near 0%. The correction is kept in the log on purpose.
+
+Full detail, every run and every number, is in `RESEARCH_LOG.md`. Figures are in `figures/`.
+
+## How it works
+
+The study has two sides that run in separate Python environments, which is also what keeps the surrogate and victim models cleanly apart.
+
 | venv | Python | holds | used by |
 |---|---|---|---|
-| `~/venvs/vlm-torch` | 3.12 | torch, transformers | `attack/`, `gradient_check.py` |
-| `~/venvs/vlm` | 3.15 | mlx, mlx-vlm | `eval/run_grid.py` |
+| `~/venvs/vlm-torch` | 3.12 | torch, transformers | `attack/` (crafting on MPS) |
+| `~/venvs/vlm` | 3.15 | mlx, mlx-vlm | `eval/` (victim measurement) |
 
-PyTorch has no wheels for Python 3.14/3.15 yet, which is why the attacker side
-runs on 3.12.
+The attacker side optimizes pixels with PGD against one or more PyTorch surrogate models and saves a PNG. The victim side feeds that PNG to quantized MLX models, optionally after a preprocessing step, and scores the answer on a strict-to-lenient metric ladder (exact, starts_with = control, contains = content, contains_norm, leak50).
 
-## Run order
+## Reproduce
+
 ```bash
-# 1. verify the differentiable path (attacker env)
+# 1. craft one benign attack image (attacker env)
 source ~/venvs/vlm-torch/bin/activate
-cd Attack/Tool && python gradient_check.py
+python -m attack.run --out images/attack.png
 
-# 2. optimise one benign attack image
-python -m attack.run --out images/attack.png      # (thin CLI, see below)
-#    or a preprocessing-aware one (EOT over random resize/JPEG, ~3.5 s/step, ~1 h)
-python -m attack.run --out images/attack_eot.png --steps 1000 --eot --eot-samples 2 --dtype bfloat16
+# the strongest transfer attack from E9:
+python -m attack.run \
+  --ensemble Qwen/Qwen3-VL-2B-Instruct,Qwen/Qwen3-VL-4B-Instruct \
+  --optimizer apgd --momentum 1.0 --ti 5 --di 0.5 \
+  --prompt-batch --eot --eot-samples 1 --steps 1000 \
+  --out images/stress_ens_apgd_s0.png
 
-# 3. measure robustness across the MLX victims (mlx env)
+# 2. measure it across the MLX victims (victim env)
 source ~/venvs/vlm/bin/activate
 python -m eval.run_grid --image images/attack.png --target HIJACKED-BY-TEAM-X
+
+# 3. rebuild the figures
+python repro/make_figures.py
 ```
 
-## Layout
+The overnight experiment chains live in `repro/` (`stress_chain.sh`, `agg_stress.py`).
+
+## Repository layout
+
 ```
-attack/optimizer.py    PGD + differentiable Qwen patchify (+ numeric self-check)
-attack/targets.py      benign target + benchmark prompt loaders
-attack/quant_robust.py EOT-over-precision variant (does robustness transfer?)
-eval/run_grid.py       victim-side grid runner -> results/grid.csv
-eval/metrics.py        benign_success + keyword refusal judge (rates only)
-eval/preprocess.py     resize / JPEG deployment transforms
-gradient_check.py      verification step #1
+attack/optimizer.py   PGD, EOT, ensemble, MI/TI/DI, APGD, TV, patch mode
+attack/ultrabreak.py  faithful UltraBreak (semantic attention loss)
+attack/typo.py        explicit typographic content attack
+attack/run.py         one CLI for every optimizer.py attack
+eval/run_grid.py      victim grid, records control and content metrics
+eval/preprocess.py    the 11 deployment pipelines
+eval/metrics.py       the strict-to-lenient metric ladder
+eval/rescore.py       re-score saved responses offline, no GPU
+repro/                experiment chains, figures, aggregation
+figures/              f1 through f5, the paper figure set
+RESEARCH_LOG.md       canonical record of every experiment
+ETHICS.md             scope, benign-target rule, disclosure
 ```
 
-## Transferability experiments (the 4B/8B gap)
+## Ethics
 
-Plain PGD and EOT hijack 2B but never 4B/8B (RESULTS.md findings 4-5). These
-extensions target that gap; all are off by default so the published grid
-reproduces. See `attack/run.py --help`.
-
-- **Exp 0 — white-box ceiling.** Differentiate through the big model directly;
-  tells us whether the wall is *transfer* or *capacity*.
-  `python -m attack.run --model Qwen/Qwen3-VL-8B-Instruct --dtype bfloat16 --steps 1000`
-- **Exp 0b — shared vision encoder?** `python inspect_models.py` (configs only).
-- **B1 ensemble** (biggest lever): `--ensemble <id1>,<id2>` optimises one image
-  against several surrogates at once; test transfer to a held-out size.
-- **B2/B3/B4** momentum / TI / DI: `--momentum 1.0 --ti 5 --di 0.5`.
-- **B5 feature-space loss** (bypass the LLM): `--loss embed` (needs a shared
-  encoder — check Exp 0b).
-- **B6 optimiser**: `--optimizer adam|apgd`. **B7 eps sweep**: `--epsilon`.
-  **B8** `--prompt-batch`.
-- **C content-vs-control**: natural base `--base photo.jpg` + `--tv 0.02` keep
-  the perturbation from turning into OCR-able glyphs; `attack/typo.py` is the
-  explicit content attack for comparison.
-- **D black-box** (own models, benign target): `python -m eval.blackbox
-  --victim <mlx-id> --budget 3000 --latent 64` — Square Attack by direct query;
-  answers "breakable at all?" and yields a query-vs-success curve.
+The target is always benign. Only locally downloaded models are used. For any harmful-prompt benchmark, the repository stores aggregate bypass rates only, never model text, and the prompt files themselves are never committed (they are download-local). The findings are written for defenders. Details are in `ETHICS.md`.
 
 ## Status
-- [x] Envs built; MLX 2B/4B/8B (8-bit) + PyTorch ref 2B downloaded
-- [ ] gradient_check passes
-- [ ] first benign attack image lands on fp32 ref and 8-bit MLX 2B
-- [ ] precision sweep (3/4/5/6-bit) + preprocessing axis
-- [ ] benchmark bypass rates; EOT-robust variant; cross-runtime
-- [ ] Exp 0 white-box 4B/8B ceiling; Exp 0b encoder comparison
-- [ ] B1 ensemble (2B+4B -> 8B held-out); B2-B4 MI/TI/DI; B5 feature-space
-- [ ] B6 APGD/Adam; B7 eps sweep; C natural-base+TV; D black-box curve
+
+Complete through E10. The open threads, mostly a semantic content metric to replace `leak50`, a non-Qwen victim to widen the cross-architecture claim, and a heavy-EOT patch test, are tracked at the end of `RESEARCH_LOG.md`.
