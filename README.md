@@ -4,8 +4,8 @@ Two well-known papers on attacking vision-language models (VLMs) seem to disagre
 
 This project tests who is right, and the short answer is that both are, because they quietly measure two different things. The distinction that settles it is control versus content:
 
-- **Control** means the image actually seized the model: it forced the exact target string at the start of the answer. A real hijack.
-- **Content** means the string only appears because it was painted into the image as pixels, and the model read it off the picture. The model was never steered. It just described what it saw.
+- *Control* means the image actually seized the model: it forced the exact target string at the start of the answer, which is a real hijack.
+- *Content* means the string only appears because it was painted into the image as pixels, and the model read it off the picture. The model was never steered; it described what it saw.
 
 Score an attack strictly (did it take control?) and transfer is about 0%. Score it loosely (did the string show up as readable pixels?) and it is 40% to 100%. Same images, both results true.
 
@@ -15,11 +15,11 @@ The only thing any attack is ever asked to force is the benign placeholder `HIJA
 
 Eleven experiments (E0 through E10), run across 3 model scales (2B, 4B, 8B), 6 quantization levels (3, 4, 5, 6, 8-bit and bf16), and 11 deployment preprocessing pipelines (resize, JPEG, WebP, blur, crop). Held-out prompts throughout.
 
-- **Control does not cross architectures.** The strongest attack we could build (an ensemble of 2B and 4B surrogates with APGD, MI/TI/DI boosters, EOT, and 1000 steps) hit the target on 7 of 8 white-box checks, so the optimizer genuinely works. On the never-seen 8B it still reached 0% control and roughly 0% verbatim content. A doctored image does not silently hijack a model it was not built against.
-- **Within a known architecture, attacks survive deployment.** The same strong image kept 82% control and 84% content on 2B, and 61% / 73% on 4B, through the quantization and preprocessing gap.
-- **Content and control come apart.** On the 4B victim, one attack reproduced the target string (content) up to 70% of the time while taking control 0% of the time. The model was reading, not obeying.
-- **Quantization is not a defense.** Control stays high from 4-bit up to bf16. The only level that suppresses the attack is 3-bit, and it does so by breaking the model's usefulness entirely. The cheap real defense is aggressive downscaling (resize to 256 px), not compression.
-- **A metric caught lying.** An early draft reported 45% content on the 8B using a loose leakage metric (`leak50`). That metric fires on the single word "hijacked," which is 53% of the target and which models use to describe any glitchy screen. The honest number by verbatim matching is near 0%. The correction is kept in the log on purpose.
+- Control does not cross architectures. The strongest attack we could build (an ensemble of 2B and 4B surrogates with APGD, MI/TI/DI boosters, EOT, and 1000 steps) hit the target on 7 of 8 white-box checks, so the optimizer genuinely works. On the never-seen 8B it still reached 0% control and roughly 0% verbatim content.
+- Within a known architecture, attacks survive deployment. The same strong image kept 82% control and 84% content on 2B, and 61% / 73% on 4B, through the quantization and preprocessing gap.
+- Content and control come apart. On the 4B victim, one attack reproduced the target string (content) up to 70% of the time while taking control 0% of the time. The model was reading the text in the image, not following it.
+- Quantization is not a defense. Control stays high from 4-bit up to bf16. The only level that suppresses the attack is 3-bit, and it does so by breaking the model's usefulness entirely. The cheap real defense is aggressive downscaling (resize to 256 px), not compression.
+- A loose metric overstated the result. An early draft reported 45% content on the 8B using a loose leakage metric (`leak50`). That metric fires on the single word "hijacked," which is 53% of the target and which models use to describe any glitchy screen. The honest number by verbatim matching is near 0%. The correction is kept in the log on purpose.
 
 Full detail, every run and every number, is in `RESEARCH_LOG.md`. Figures are in `figures/`.
 
