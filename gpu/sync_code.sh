@@ -21,11 +21,14 @@ done
 for img in "${IMAGES[@]}"; do
   mkdir -p "$STAGE/$(dirname "$img")" && cp "$img" "$STAGE/$img"
 done
-# Authors' faithful-mode configs (gitignored harmful corpus) -> private dataset only.
-if compgen -G "data/authors/*.csv" >/dev/null; then
-  mkdir -p "$STAGE/data/authors" && cp data/authors/*.csv "$STAGE/data/authors/"
-  echo "shipping authors' configs: $(ls data/authors/*.csv | tr '\n' ' ')"
-fi
+# Harmful-behaviour corpora (gitignored: authors' configs + AdvBench) -> private
+# dataset only. Shipped so Kaggle runs can read them; never committed (ETHICS.md).
+for d in data/authors data/datasets; do
+  if compgen -G "$d/*.csv" >/dev/null; then
+    mkdir -p "$STAGE/$d" && cp "$d"/*.csv "$STAGE/$d/"
+    echo "shipping $d: $(ls "$d"/*.csv | tr '\n' ' ')"
+  fi
+done
 cat > "$STAGE/dataset-metadata.json" <<EOF
 {"title": "$SLUG", "id": "$USER_NAME/$SLUG", "licenses": [{"name": "other"}]}
 EOF
