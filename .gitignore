@@ -27,6 +27,12 @@ results/*_bench_*_responses.jsonl
 # ---- Scratch / transient ----
 results/_tmp_*
 *.tmp
+# Intermediate per-epoch patch snapshots (regenerable); keep losses.csv + final images
+results/*_ckpt/*.png
 
 # ---- OS cruft ----
 .DS_Store
+
+# ---- ETHICS: harmful-behavior corpora (AdvBench etc.) stay local-only ----
+data/authors/
+data/datasets/

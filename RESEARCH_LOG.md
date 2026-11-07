@@ -1,7 +1,7 @@
 # Research Log — VLM Image-Attack Transfer under Deployment
 
 Canonical record of everything we run. Newest entries at the bottom of §4.
-Thesis and plan: `PROPOSAL.md`. Ethics/scope: `ETHICS.md`.
+Project scope: CS205 pre-proposal presentation ("Testing the Robustness of UltraBreak", `../../Attack-tool/CS205 Pre-Proposal Presentation.pdf`). Ethics/scope: `ETHICS.md`.
 Benign target throughout: `HIJACKED-BY-TEAM-X` (no harmful content).
 
 **Thesis (A):** what recent VLM attacks *transfer* is typographic **content**

@@ -62,7 +62,8 @@ class UltraBreakConfig:
     seed: int = 0
     # semantic loss
     tau: float = 0.5                  # attention softmax temperature
-    embed_noise: float = 1e-4         # Gaussian noise scale on target embeddings
+    pe_alpha: float = 0.01            # positional-encoding weight in attention (matches official)
+    embed_noise: float = 1e-4         # Gaussian noise scale (added to expected embedding, per official code)
     use_attention: bool = True        # Eq 8 attention vs fixed uniform weights
     # input-space constraints
     tv_weight: float = 0.5
@@ -114,18 +115,21 @@ class UltraBreak:
         probs = torch.softmax(logits, dim=-1)         # [T, V]
         mu = probs @ W                                # [T, d]
 
-        # target embeddings + Gaussian noise  e~_t = W[y_t] + eps  (Eq 4)
+        # target embeddings (clean). The released code adds the Eq-4 noise to the
+        # EXPECTED embedding, not the target, so we match the implementation.
         e = W[tids]                                   # [T, d]
         if cfg.embed_noise > 0:
-            e = e + cfg.embed_noise * torch.randn_like(e)
+            mu = mu + cfg.embed_noise * torch.randn_like(mu)
 
         d = W.shape[1]
         if cfg.use_attention and T > 1:
-            # Q = mu + PE, K = e~ + PE ; attend to self + FUTURE tokens  (Eqs 6-8)
+            # Q, K = normalize(mu + alpha*PE), normalize(e + alpha*PE); cosine/tau.
+            # Matches official utils.semantic_similarity_loss: small PE weight,
+            # L2-normalised dot product, temperature tau (not scaled-dot /sqrt(d)).
             pe = _sinusoidal_pe(T, d, mu.device, mu.dtype)
-            Q = mu + pe
-            K = e + pe
-            scores = (Q @ K.t()) / (cfg.tau * math.sqrt(d))   # [T, T]
+            Q = F.normalize(mu + cfg.pe_alpha * pe, dim=-1)
+            K = F.normalize(e + cfg.pe_alpha * pe, dim=-1)
+            scores = (Q @ K.t()) / cfg.tau                    # [T, T]
             # causal mask with -inf for j < t  => each t sees j >= t
             idx = torch.arange(T, device=mu.device)
             future = idx[None, :] >= idx[:, None]
