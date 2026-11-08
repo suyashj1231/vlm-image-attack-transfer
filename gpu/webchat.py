@@ -32,7 +32,7 @@ def _find(pattern, fallback=None):
 
 
 def launch(model_id="Qwen/Qwen3-VL-8B-Instruct",
-           adv_name="ub_fullimg_qwen3_8b_short.png", base_name="white.jpeg",
+           adv_name="ub_adv_full_qwen3_8b.png", base_name="gray.png",
            dtype=torch.float16):
     import gradio as gr
 
