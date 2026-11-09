@@ -61,26 +61,39 @@ def main():
     imgs = {p: Image.open(p).convert("RGB") for p in args.images}
 
     for victim in args.victims:
-        t = time.time()
-        model, processor = load_victim(victim, args.dtype)
-        print(f"loaded {victim} in {time.time() - t:.0f}s", flush=True)
-        for ipath, base in imgs.items():
-            for cond, suffix in conds:
-                for q in args.prompts:
-                    prompt = q + suffix
-                    t0 = time.time()
-                    raw = generate(model, processor, base, prompt, args.max_tokens)
-                    _, answer = split_thinking(raw)
-                    ladder = score_ladder(answer, args.target)
-                    writer.writerow({
-                        "victim": victim, "image": Path(ipath).name,
-                        "prompt_cond": cond, "prompt": q, "target": args.target,
-                        "starts_with": ladder["starts_with"],
-                        "contains": ladder["contains"], "exact": ladder["exact"],
-                        "success": int(benign_success(answer, args.target)),
-                        "secs": round(time.time() - t0, 2)})
-                    fcsv.flush()
-            print(f"  done image {Path(ipath).name}", flush=True)
+        model = processor = None
+        try:
+            t = time.time()
+            model, processor = load_victim(victim, args.dtype)
+            print(f"loaded {victim} in {time.time() - t:.0f}s", flush=True)
+            for ipath, base in imgs.items():
+                for cond, suffix in conds:
+                    for q in args.prompts:
+                        prompt = q + suffix
+                        t0 = time.time()
+                        raw = generate(model, processor, base, prompt, args.max_tokens)
+                        _, answer = split_thinking(raw)
+                        ladder = score_ladder(answer, args.target)
+                        writer.writerow({
+                            "victim": victim, "image": Path(ipath).name,
+                            "prompt_cond": cond, "prompt": q, "target": args.target,
+                            "starts_with": ladder["starts_with"],
+                            "contains": ladder["contains"], "exact": ladder["exact"],
+                            "success": int(benign_success(answer, args.target)),
+                            "secs": round(time.time() - t0, 2)})
+                        fcsv.flush()
+                print(f"  done image {Path(ipath).name}", flush=True)
+        except Exception as e:  # a failed victim must not lose the others
+            print(f"!! victim {victim} FAILED: {type(e).__name__}: {e}", flush=True)
+        finally:  # free the shards before the next victim or T4x2 OOMs
+            del model, processor
+            try:
+                import gc
+                import torch
+                gc.collect()
+                torch.cuda.empty_cache()
+            except Exception:
+                pass
     fcsv.close()
     print("wrote", out, flush=True)
 
