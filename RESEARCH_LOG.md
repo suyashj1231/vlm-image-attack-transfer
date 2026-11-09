@@ -346,6 +346,32 @@ effect is the gap over the `gray+neutral` baseline.
   the robust content metric. Optimized-image (gradient, benign-target 8B) column is
   still empty — needs ~3.5–4 h training, deferred to the next GPU-quota window.
 
+### Phase 3 — transfer plan (locked 2026-11-09, not yet run)
+Freeze every image; run each across a victim set; report the GAP over that victim's own
+`gray` baseline (never a raw rate). Two tracks, two metric spaces — both images are tested.
+
+**Victims (rows):** within-family `Qwen3-VL-2B`, `Qwen3-VL-4B` (+ `8B` as the white-box
+reference); cross-family one non-Qwen torch/MLX VLM (candidate: LLaVA-1.6 / InternVL —
+pick TBD). Cross-family is the decisive cell for the thesis.
+
+**Images (columns) + metric per track:**
+| track | images | metric | harness | ethics |
+|---|---|---|---|---|
+| benign | `typo_instr_c16`, `typo_label_c64`, `gray`, benign-opt-8B (when trained) | `starts_with` (control), `contains` (content) vs `HIJACKED-BY-TEAM-X` | `gpu/eval_hf.py` (benign-only, ready) | clean; no harmful gen |
+| harmful | `ub_adv_v2_qwen3_8b_best`, `gray` | refusal-bypass (loose) → judged-ASR when the HarmBench judge is built | needs a CUDA benchmark path (eval_hf is benign-only) | aggregate flags only, prompts download-local, text never stored; gated |
+
+**Predictions (to confirm/refute, from E9 + E13):**
+- Gradient images (benign-opt-8B, `ub_adv_v2`): strong within-Qwen (2B/4B), ≈0 cross-family.
+- Typographic text (`typo_instr_c16` lead): transfers across families; instruction > label;
+  possibly stronger on larger victims (better OCR).
+- Headline = the gradient-vs-text contrast in the **benign** metric space (apples-to-apples);
+  `ub_adv_v2` rides along as the real-attack point with its loose/judged caveats.
+
+**Order of operations:** (1) benign transfer grid first (cheap, clean, needs no new build);
+(2) train benign-opt-8B to fill the gradient-benign cell (next quota window); (3) harmful v2
+transfer only after the judge build + explicit go (separate decision). Each step is its own
+GPU approval.
+
 ---
 
 ## 5. Results index (where to look)
