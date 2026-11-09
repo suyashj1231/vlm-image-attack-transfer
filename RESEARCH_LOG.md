@@ -372,6 +372,41 @@ pick TBD). Cross-family is the decisive cell for the thesis.
 transfer only after the judge build + explicit go (separate decision). Each step is its own
 GPU approval.
 
+### E14 — Phase 3 step 1: benign typographic transfer (2026-11-09)
+`gpu/phase2_grid.py` (`cs205-e14-transfer`, commit `4ced89c`, victim loop hardened: per-victim
+try/except + shard free between loads). {gray, `typo_label_c64`, `typo_instr_c16`} ×
+{neutral, guidance} × 4 held-out benign prompts, across four victims. All four loaded clean,
+incl. cross-family LLaVA via the unified `apply_chat_template` path. Flags only.
+
+Neutral prompt (image alone), CONTROL (`starts_with`) / CONTENT (`contains`), gap over each
+victim's own `gray+neutral` = 0/0 baseline:
+
+| victim | gray | label_c64 | instr_c16 |
+|---|---|---|---|
+| Qwen3-VL-2B | 0/0 | 0/100 | 75/100 |
+| Qwen3-VL-4B | 0/0 | 0/100 | 100/100 |
+| Qwen3-VL-8B | 0/0 | 0/100 | 100/100 |
+| LLaVA-1.6-7B (cross-family) | 0/0 | 0/100 | **0/75** |
+
+Guidance prompt = 100/100 on all four (capability check: every victim CAN emit the string, so
+the neutral gaps are real, not capability limits).
+
+- **CONTENT transfers across architectures:** the in-image marker is OCR'd and echoed by every
+  victim, LLaVA included (label 100% everywhere; instr 100% on Qwen, 75% on LLaVA).
+- **CONTROL is family-bound:** the instruction *seizes the opener* (starts_with) 75–100% across
+  the whole Qwen family but **collapses to 0% on LLaVA** — LLaVA reads the instruction (content
+  75%) but does not obey "reply only with…" as an output directive.
+- **Three-way picture:** gradient perturbation = ~0 content, ~0 control cross-family (E9);
+  typographic content = 100% cross-family; typographic control = ~75% content, 0 control
+  cross-family. **Sharpened thesis:** in-image text makes a model *say* your string anywhere
+  (universal OCR content channel), but making it *obey* as output control is architecture-
+  specific (rides within Qwen, breaks to LLaVA); gradient ports neither.
+- **Caveats:** n = 4 held-out prompts, saturated signal (adequate for the dissociation, not for
+  fine rates). 2B instr control 75% (3/4) hints at size-dependent instruction-following. One
+  non-Qwen victim (n=1 family) — a second cross-family VLM would firm the control=0 claim.
+- **Next:** steps 2 (train benign-opt-8B, gradient-benign cell) and 3 (harmful v2 transfer +
+  judge) remain, next quota window / gated.
+
 ---
 
 ## 5. Results index (where to look)
